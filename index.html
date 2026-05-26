@@ -1,435 +1,274 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Protocol Video</title>
-  <style>
-    /* Reset and System Core */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    
-    body {
-      background-color: #050507;
-      color: #e4e4e7;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      overflow-x: hidden;
-      scroll-behavior: smooth;
-    }
-
-    /* Green Accent Typography & Utility Headers */
-    h1, h2, h3, .accent-green {
-      color: #ccff00; /* High-Vis Acid Green */
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      font-weight: 800;
-    }
-
-    /* Parallax Stage Component */
-    .parallax-stage {
-      position: relative;
-      width: 100%;
-      height: 100vh;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      border-bottom: 1px solid #1c1c1f;
-    }
-
-    .parallax-layer {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 130%; 
-      background-position: center center;
-      background-size: cover;
-      background-repeat: no-repeat;
-      will-change: transform;
-      transform: translateY(calc(var(--scroll-top) * var(--depth-rate)));
-      transition: filter 0.3s ease;
-    }
-
-    /* Custom 85% Dark/Moody Tint Overlays over Daily Source Generators */
-    .layer-background {
-      --depth-rate: 0.12;
-      z-index: 1;
-      background-image: 
-        linear-gradient(rgba(5, 5, 7, 0.85), rgba(5, 5, 7, 0.85)), 
-        url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1920&auto=format&fit=crop'); 
-    }
-
-    .layer-midground {
-      --depth-rate: -0.20;
-      z-index: 2;
-      background-image: 
-        linear-gradient(rgba(5, 5, 7, 0.85), rgba(5, 5, 7, 0.85)), 
-        url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1920&auto=format&fit=crop');
-    }
-
-    .layer-foreground {
-      --depth-rate: -0.50;
-      z-index: 4;
-      background-image: 
-        linear-gradient(rgba(5, 5, 7, 0.85), rgba(5, 5, 7, 0.85)), 
-        url('https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1920&auto=format&fit=crop');
-    }
-
-    /* Brand Header Content Layer */
-    .brand-header {
-      position: relative;
-      z-index: 3;
-      text-align: center;
-      transform: translateY(calc(var(--scroll-top) * -0.05));
-      will-change: transform;
-      padding: 0 1rem;
-    }
-
-    .brand-header h1 {
-      font-size: 4rem;
-      line-height: 1;
-      margin-bottom: 0.5rem;
-      text-shadow: 0 0 30px rgba(204, 255, 0, 0.2);
-    }
-
-    .brand-header p {
-      font-size: 1.1rem;
-      color: #a1a1aa;
-      max-width: 600px;
-      margin: 0 auto;
-      font-weight: 500;
-    }
-
-    /* Main Container Sectioning */
-    .main-content {
-      position: relative;
-      z-index: 10;
-      background-color: #050507;
-      padding: 6rem 2rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8rem;
-    }
-
-    .section-container {
-      width: 100%;
-      max-width: 1000px;
-    }
-
-    .section-title {
-      font-size: 1.75rem;
-      margin-bottom: 3rem;
-      border-left: 4px solid #ccff00;
-      padding-left: 1rem;
-    }
-
-    /* Motion Grid System for The Friction Trap */
-    .grid-three-col {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-    }
-
-    .info-card {
-      background: #0e0e11;
-      border: 1px solid #1c1c1f;
-      padding: 2.5rem;
-      border-radius: 4px;
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
-    }
-
-    .info-card:hover {
-      transform: translateY(-5px);
-      border-color: #ccff00;
-    }
-
-    .icon-wrapper {
-      margin-bottom: 1.5rem;
-      display: inline-block;
-    }
-
-    .info-card h3 {
-      font-size: 1.2rem;
-      margin-bottom: 1rem;
-      color: #ffffff;
-    }
-
-    .info-card p {
-      color: #a1a1aa;
-      line-height: 1.6;
-      font-size: 0.95rem;
-    }
-
-    /* Operational Flat Rates Presentation Layout */
-    .rate-table-container {
-      background: #0e0e11;
-      border: 1px solid #1c1c1f;
-      border-radius: 4px;
-      overflow: hidden;
-    }
-
-    .rate-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1.5fr 1fr;
-      padding: 1.5rem;
-      border-bottom: 1px solid #1c1c1f;
-      align-items: center;
-    }
-
-    .rate-row.table-header {
-      background: #121216;
-      border-bottom: 2px solid #1c1c1f;
-    }
-
-    .rate-row.table-header div {
-      font-weight: 700;
-      color: #ccff00;
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-    }
-
-    .rate-row:last-child {
-      border-bottom: none;
-    }
-
-    .rate-level {
-      font-weight: 700;
-      color: #ffffff;
-    }
-
-    .rate-price {
-      font-weight: 800;
-      color: #ccff00;
-      font-size: 1.2rem;
-      text-align: right;
-    }
-
-    /* Turnaround Pipeline / Process Components */
-    .timeline {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-
-    .timeline-step {
-      display: flex;
-      gap: 2rem;
-      background: #0e0e11;
-      border: 1px solid #1c1c1f;
-      padding: 1.5rem 2rem;
-      border-radius: 4px;
-      align-items: center;
-    }
-
-    .step-time {
-      font-weight: 800;
-      color: #ccff00;
-      font-size: 1.1rem;
-      min-width: 120px;
-    }
-
-    .step-desc {
-      color: #e4e4e7;
-      font-size: 1rem;
-    }
-
-    /* Unified QR Execution Footer Section */
-    .footer-qr-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.5rem;
-      padding-top: 4rem;
-      border-top: 1px solid #1c1c1f;
-      width: 100%;
-      max-width: 500px;
-      text-align: center;
-    }
-
-    .footer-qr-container p {
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      color: #71717a;
-    }
-
-    .fake-qr {
-      width: 180px;
-      height: 180px;
-      background-color: #ffffff;
-      padding: 12px;
-      border-radius: 4px;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      grid-template-rows: repeat(4, 1fr);
-      gap: 8px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
-    }
-
-    .qr-block { background-color: #050507; }
-    .qr-block.empty { background-color: transparent; }
-    .qr-alignment-zone { border: 5px solid #050507; background: transparent; }
-
-    /* Responsive Mobile Overrides */
-    @media (max-width: 768px) {
-      .brand-header h1 { font-size: 2.5rem; }
-      .rate-row {
-        grid-template-columns: 1fr 1fr;
-        gap: 1rem;
-      }
-      .rate-row.table-header { display: none; }
-      .rate-price { text-align: left; grid-column: span 2; border-top: 1px solid #1c1c1f; padding-top: 0.5rem; }
-      .timeline-step { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protocol Video | Frictionless Mobile Content Production</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandLime: '#ccff00',
+                        brandDark: '#0a0a0a',
+                        brandCard: '#141414',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a0a;
+        }
+    </style>
 </head>
-<body>
+<body class="text-gray-100 selection:bg-brandLime selection:text-black">
 
-  <div class="parallax-stage" id="parallaxStage">
-    <div class="parallax-layer layer-background"></div>
-    <div class="parallax-layer layer-midground"></div>
-    
-    <header class="brand-header">
-      <h1>Protocol Video</h1>
-      <p>Frictionless, Flat-Rate Mobile Content Production for the Modern High-Street Business[cite: 2].</p>
+    <header class="min-h-screen flex flex-col justify-between px-6 py-12 md:p-24 border-b border-zinc-800 bg-gradient-to-b from-zinc-900 to-brandDark">
+        <div class="flex justify-between items-center">
+            <span class="text-xs uppercase tracking-widest font-mono text-zinc-500">[ protocol video ]</span>
+            <span class="px-3 py-1 text-xs font-mono font-bold bg-brandLime text-black rounded-full uppercase tracking-wider">Initial Rollout</span>
+        </div>
+        
+        <div class="max-w-4xl my-auto">
+            <h1 class="text-5xl md:text-8xl font-black tracking-tighter uppercase mb-6">
+                Protocol <span class="text-brandLime">Video</span>
+            </h1>
+            <p class="text-xl md:text-3xl text-zinc-400 font-light leading-relaxed max-w-3xl">
+                Frictionless, Flat-Rate Mobile Content Production for the Modern High-Street Business.
+            </p>
+        </div>
+
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 text-xs font-mono text-zinc-500 uppercase tracking-wider">
+            <div>Business Plan 2024</div>
+            <div>Ready to deploy Monday</div>
+        </div>
     </header>
 
-    <div class="parallax-layer layer-foreground"></div>
-  </div>
-
-  <main class="main-content">
-
-    <section class="section-container">
-      <h2 class="section-title">The Friction Trap [cite: 4]</h2>
-      <div class="grid-three-col">
+    <section class="py-20 px-6 md:px-24 max-w-7xl mx-auto">
+        <h2 class="text-xs font-mono uppercase tracking-widest text-brandLime mb-12">// The Friction Trap</h2>
         
-        <div class="info-card">
-          <div class="icon-wrapper">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ccff00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-          </div>
-          <h3>Time Scarcity [cite: 6]</h3>
-          <p>Business owners have zero bandwidth to reliably plan, shoot, and compile consistent short-form social media assets[cite: 7, 8].</p>
-        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-brandCard p-8 rounded-lg border border-zinc-800">
+                <div class="text-zinc-600 font-mono text-sm mb-4">01 / TIME SCARCITY</div>
+                <h3 class="text-xl font-bold mb-3">Zero Bandwidth</h3>
+                <p class="text-zinc-400 text-sm leading-relaxed">Business owners have no bandwidth to plan, shoot, and edit consistent social content.</p>
+            </div>
 
-        <div class="info-card">
-          <div class="icon-wrapper">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ccff00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
-          </div>
-          <h3>Cost Complexity [cite: 9]</h3>
-          <p>Traditional media agencies demand excessive ongoing retainers and locking contracts for routine, everyday promos[cite: 10].</p>
-        </div>
+            <div class="bg-brandCard p-8 rounded-lg border border-zinc-800">
+                <div class="text-zinc-600 font-mono text-sm mb-4">02 / COST COMPLEXITY</div>
+                <h3 class="text-xl font-bold mb-3">Retainer Traps</h3>
+                <p class="text-zinc-400 text-sm leading-relaxed">Traditional agencies demand high retainers and long-lead contracts for simple promos.</p>
+            </div>
 
-        <div class="info-card">
-          <div class="icon-wrapper">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ccff00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22s1-1 1-4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v13c0 3 1 4 1 4z"></path><path d="M6 8h12"></path><path d="M6 12h12"></path></svg>
-          </div>
-          <h3>Invisible Revenue [cite: 11]</h3>
-          <p>Stagnant, dead social media feeds directly result in lost walk-in customer opportunities and minimized local presence[cite: 12].</p>
+            <div class="bg-brandCard p-8 rounded-lg border border-zinc-800">
+                <div class="text-zinc-600 font-mono text-sm mb-4">03 / INVISIBLE REVENUE</div>
+                <h3 class="text-xl font-bold mb-3">Dead Feeds</h3>
+                <p class="text-zinc-400 text-sm leading-relaxed">Dead social media feeds lead to missed walk-ins and decreased local brand authority.</p>
+            </div>
         </div>
-
-      </div>
     </section>
 
-    <section class="section-container">
-      <h2 class="section-title">Operational Flat Rates [cite: 36]</h2>
-      <div class="rate-table-container">
-        
-        <div class="rate-row table-header">
-          <div>Protocol Level [cite: 37]</div>
-          <div>Duration [cite: 37]</div>
-          <div>Shot Architecture [cite: 22, 37]</div>
-          <div style="text-align: right;">Flat Rate [cite: 37]</div>
+    <section class="bg-brandLime text-black py-24 px-6 md:px-24 text-center overflow-hidden relative">
+        <div class="max-w-4xl mx-auto relative z-10">
+            <span class="text-xs uppercase font-mono tracking-widest text-zinc-800 font-bold block mb-4">[ The Protocol Solution ]</span>
+            <div class="text-7xl md:text-9xl font-black tracking-tighter my-4">$75</div>
+            <div class="text-sm font-mono uppercase tracking-widest font-bold text-zinc-800 mb-6">Entry Price Point</div>
+            <h3 class="text-2xl md:text-4xl font-bold tracking-tight max-w-2xl mx-auto leading-tight">
+                Standardized templates. Flat rates. Immediate results. Zero contract friction.
+            </h3>
+            <div class="mt-8 inline-block bg-black text-brandLime text-xs font-mono font-bold px-4 py-2 uppercase tracking-widest rounded">
+                24H Delivery Cycle
+            </div>
         </div>
-
-        <div class="rate-row">
-          <div class="rate-level">The Pulse [cite: 37]</div>
-          <div>15 Seconds [cite: 37]</div>
-          <div>5 High-Impact Shots [cite: 37]</div>
-          <div class="rate-price">$75.00 [cite: 37]</div>
-        </div>
-
-        <div class="rate-row">
-          <div class="rate-level">The Showcase [cite: 37]</div>
-          <div>30 Seconds [cite: 37]</div>
-          <div>10 Detailed Shots [cite: 37]</div>
-          <div class="rate-price">$150.00 [cite: 37]</div>
-        </div>
-
-        <div class="rate-row">
-          <div class="rate-level">The Narrative [cite: 37]</div>
-          <div>60 Seconds [cite: 37]</div>
-          <div>Unlimited + VO Audio [cite: 37]</div>
-          <div class="rate-price">$250.00 [cite: 37]</div>
-        </div>
-
-      </div>
     </section>
 
-    <section class="section-container">
-      <h2 class="section-title">The 24H Turnaround [cite: 38]</h2>
-      <div class="timeline">
+    <section class="py-24 px-6 md:px-24 max-w-7xl mx-auto">
+        <h2 class="text-xs font-mono uppercase tracking-widest text-brandLime mb-12">// The "Measurable" Protocol</h2>
         
-        <div class="timeline-step">
-          <div class="step-time">09:00 AM [cite: 39]</div>
-          <div class="step-desc">Walk-in Pitch & Immediate Same-day Payment Execution[cite: 42].</div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div>
+                <h3 class="text-lg font-bold border-b border-zinc-800 pb-2 mb-4 uppercase">The Shot Count</h3>
+                <p class="text-zinc-400 text-sm leading-relaxed">
+                    Every tier has a defined number of high-impact shots (5, 10, or 24) following a proven narrative grid.
+                </p>
+            </div>
+            <div>
+                <h3 class="text-lg font-bold border-b border-zinc-800 pb-2 mb-4 uppercase">The Audio Layer</h3>
+                <p class="text-zinc-400 text-sm leading-relaxed">
+                    Generic free beats included. Premium narrative voiceover (VO) acts as a scalable upsell protocol.
+                </p>
+            </div>
+            <div>
+                <h3 class="text-lg font-bold border-b border-zinc-800 pb-2 mb-4 uppercase">The Merchandise</h3>
+                <p class="text-zinc-400 text-sm leading-relaxed">
+                    Protocol-specific focus on service/product counts to ensure measurable ROI for the client.
+                </p>
+            </div>
         </div>
-
-        <div class="timeline-step">
-          <div class="step-time">10:30 AM [cite: 40]</div>
-          <div class="step-desc">Tactical On-Site Mobile Capture (Target: 15–30 Mins)[cite: 43].</div>
-        </div>
-
-        <div class="timeline-step">
-          <div class="step-time">02:00 PM [cite: 41]</div>
-          <div class="step-desc">Mobile Linear Template Editing Framework Integration[cite: 44].</div>
-        </div>
-
-        <div class="timeline-step">
-          <div class="step-time">09:00 AM (D+1) [cite: 45]</div>
-          <div class="step-desc">Hardened Digital Delivery, System Deployment & Review[cite: 46].</div>
-        </div>
-
-      </div>
     </section>
 
-    <footer class="footer-qr-container">
-      <div class="fake-qr" aria-hidden="true">
-        <div class="qr-block qr-alignment-zone"></div>
-        <div class="qr-block"></div>
-        <div class="qr-block empty"></div>
-        <div class="qr-block qr-alignment-zone"></div>
-        <div class="qr-block empty"></div>
-        <div class="qr-block"></div>
-        <div class="qr-block"></div>
-        <div class="qr-block empty"></div>
-        <div class="qr-block"></div>
-        <div class="qr-block empty"></div>
-        <div class="qr-block"></div>
-        <div class="qr-block"></div>
-        <div class="qr-block qr-alignment-zone"></div>
-        <div class="qr-block"></div>
-        <div class="qr-block empty"></div>
-        <div class="qr-block qr-alignment-zone"></div>
-      </div>
-      <p>System Authorization Verification Protocol Enabled</p>
+    <section class="py-20 bg-zinc-950 border-y border-zinc-900 px-6 md:px-24">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <div>
+                <h2 class="text-xs font-mono uppercase tracking-widest text-brandLime mb-6">// Mobile Tactical Rig</h2>
+                <div class="space-y-6">
+                    <div>
+                        <h4 class="text-sm font-mono uppercase text-zinc-400 mb-1">Mobile-First Execution</h4>
+                        <p class="text-zinc-300 text-sm">Leveraging the power of the iPhone 16 with the Zedio Dual Scorpion rig for high-stability, low-profile urban production.</p>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-mono uppercase text-zinc-400 mb-1">Visual Authority</h4>
+                        <p class="text-zinc-300 text-sm">The 12-shotgun microphone and 20W Ulanzi light create an immediate professional presence, bridging the gap between "guy with a phone" and "Production Agency."</p>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h2 class="text-xs font-mono uppercase tracking-widest text-brandLime mb-6">// On-Foot Deployment</h2>
+                <div class="space-y-6">
+                    <div>
+                        <h4 class="text-sm font-mono uppercase text-zinc-400 mb-1">Hyper-Local Focus</h4>
+                        <p class="text-zinc-300 text-sm">On-foot delivery allows for zero-overhead logistics and neighborhood domination.</p>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-mono uppercase text-zinc-400 mb-1">Walk-In Sales & Presence</h4>
+                        <p class="text-zinc-300 text-sm">Same-day commitment through high-energy, high-impact cold approaches while openly carrying gear to build curiosity.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 px-6 md:px-24 max-w-5xl mx-auto">
+        <h2 class="text-xs font-mono uppercase tracking-widest text-brandLime mb-8">// Operational Flat Rates</h2>
+        <div class="overflow-x-auto border border-zinc-800 rounded-lg">
+            <table class="w-full text-left border-collapse text-sm">
+                <thead>
+                    <tr class="bg-zinc-900 text-zinc-400 font-mono text-xs uppercase border-b border-zinc-800">
+                        <th class="p-4">Protocol Level</th>
+                        <th class="p-4">Duration</th>
+                        <th class="p-4">Shot Count</th>
+                        <th class="p-4 text-right">Flat Rate</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-zinc-800 font-mono">
+                    <tr class="hover:bg-zinc-900/50">
+                        <td class="p-4 font-bold text-white uppercase">The Pulse</td>
+                        <td class="p-4 text-zinc-400">15 Seconds</td>
+                        <td class="p-4 text-zinc-400">5 High-Impact Shots</td>
+                        <td class="p-4 text-right text-brandLime font-bold">$75.00</td>
+                    </tr>
+                    <tr class="hover:bg-zinc-900/50">
+                        <td class="p-4 font-bold text-white uppercase">The Showcase</td>
+                        <td class="p-4 text-zinc-400">30 Seconds</td>
+                        <td class="p-4 text-zinc-400">10 Detailed Shots</td>
+                        <td class="p-4 text-right text-brandLime font-bold">$150.00</td>
+                    </tr>
+                    <tr class="hover:bg-zinc-900/50">
+                        <td class="p-4 font-bold text-white uppercase">The Narrative</td>
+                        <td class="p-4 text-zinc-400">60 Seconds</td>
+                        <td class="p-4 text-zinc-400">Unlimited + VO Audio</td>
+                        <td class="p-4 text-right text-brandLime font-bold">$250.00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="py-20 bg-zinc-950 border-t border-zinc-900 px-6 md:px-24">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-xs font-mono uppercase tracking-widest text-brandLime mb-12">// The 24H Turnaround Workflow</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 font-mono text-xs">
+                <div class="p-4 bg-brandCard border border-zinc-800 rounded">
+                    <div class="text-brandLime font-bold mb-1">09:00 AM</div>
+                    <div class="text-white uppercase font-bold mb-2">Pitch & Pay</div>
+                    <p class="text-zinc-500 text-xs">Walk-in Pitch & Same-day Payment</p>
+                </div>
+                <div class="p-4 bg-brandCard border border-zinc-800 rounded">
+                    <div class="text-brandLime font-bold mb-1">10:30 AM</div>
+                    <div class="text-white uppercase font-bold mb-2">Capture</div>
+                    <p class="text-zinc-500 text-xs">On-Site Capture (15-30 mins)</p>
+                </div>
+                <div class="p-4 bg-brandCard border border-zinc-800 rounded">
+                    <div class="text-brandLime font-bold mb-1">02:00 PM</div>
+                    <div class="text-white uppercase font-bold mb-2">Template Edit</div>
+                    <p class="text-zinc-500 text-xs">Mobile/iPad Asset Compilation</p>
+                </div>
+                <div class="p-4 bg-brandCard border border-zinc-800 rounded">
+                    <div class="text-brandLime font-bold mb-1">09:00 AM (D+1)</div>
+                    <div class="text-white uppercase font-bold mb-2">Delivery</div>
+                    <p class="text-zinc-500 text-xs">Digital Delivery & Final Review</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 px-6 md:px-24 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16">
+        <div>
+            <h2 class="text-xs font-mono uppercase tracking-widest text-brandLime mb-6">// Scale & Projections</h2>
+            <div class="space-y-4 font-mono text-sm">
+                <div>
+                    <div class="flex justify-between text-zinc-400 mb-1"><span>1 Lead / Day</span> <span>$3,000 / Mo</span></div>
+                    <div class="w-full bg-zinc-800 h-2 rounded overflow-hidden"><div class="bg-brandLime h-full w-1/3"></div></div>
+                </div>
+                <div>
+                    <div class="flex justify-between text-zinc-400 mb-1"><span>2 Leads / Day</span> <span>$6,000 / Mo</span></div>
+                    <div class="w-full bg-zinc-800 h-2 rounded overflow-hidden"><div class="bg-brandLime h-full w-2/3"></div></div>
+                </div>
+                <div>
+                    <div class="flex justify-between text-zinc-400 mb-1"><span>3 Leads / Day</span> <span>$9,000 / Mo</span></div>
+                    <div class="w-full bg-zinc-800 h-2 rounded overflow-hidden"><div class="bg-brandLime h-full w-full"></div></div>
+                </div>
+                <p class="text-[10px] text-zinc-600 uppercase pt-2">* Based on Tier 2 Average ($150) across 20 working days.</p>
+            </div>
+        </div>
+
+        <div>
+            <h2 class="text-xs font-mono uppercase tracking-widest text-brandLime mb-6">// Phase 2: The Flutter Advantage</h2>
+            <ul class="space-y-4 text-sm">
+                <li class="flex items-start gap-3">
+                    <span class="text-brandLime font-mono text-xs mt-0.5">[✔]</span>
+                    <div>
+                        <strong class="text-white block">Direct Booking</strong>
+                        <span class="text-zinc-400 text-xs">Automated scheduling and lead intake for business owners.</span>
+                    </div>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-brandLime font-mono text-xs mt-0.5">[✔]</span>
+                    <div>
+                        <strong class="text-white block">Shot-List Generator</strong>
+                        <span class="text-zinc-400 text-xs">Algorithmic checklist engine optimized for specific creators by industry.</span>
+                    </div>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-brandLime font-mono text-xs mt-0.5">[✔]</span>
+                    <div>
+                        <strong class="text-white block">Payment Rails</strong>
+                        <span class="text-zinc-400 text-xs">Integrated Stripe and Apple Pay infrastructure for frictionless local transactions.</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="py-16 bg-zinc-950 border-t border-zinc-900 text-center px-6">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-xs font-mono uppercase tracking-widest text-zinc-500 mb-4">Operational Roles</h2>
+            <p class="text-xs font-mono text-zinc-400 leading-relaxed uppercase">
+                Field Creators (Rig Operators) &bull; Template Editors (Remote Quick Turnaround) &bull; Software Devs (Flutter / C-Logic App Ecosystem)
+            </p>
+        </div>
+    </section>
+
+    <footer class="py-24 text-center border-t border-zinc-900">
+        <div class="text-3xl font-black tracking-tight mb-2 uppercase">Q&A</div>
+        <p class="text-zinc-500 font-mono text-xs uppercase tracking-widest">Protocol Video: Hardened Content for Local Domination</p>
     </footer>
-  </main>
 
-  <script>
-    // Parallax Math Integration Hook
-    const stage = document.getElementById('parallaxStage');
-    
-    window.addEventListener('scroll', () => {
-      const scrollTop = window.scrollY;
-      stage.style.setProperty('--scroll-top', `${scrollTop}px`);
-    }, { passive: true });
-  </script>
 </body>
 </html>
+
