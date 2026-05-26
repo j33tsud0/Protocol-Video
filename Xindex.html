@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Protocol Video</title>
+  <style>
+    /* Reset and Core Layout */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      background-color: #0a0a0c;
+      color: #f0f0f3;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      overflow-x: hidden;
+      min-height: 200vh;
+    }
+
+    /* Parallax Stage Container */
+    .parallax-stage {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Base Layer Configuration with Built-in 85% Dark Tint Overlay */
+    .parallax-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 120%; 
+      background-position: center center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      will-change: transform;
+      transform: translateY(calc(var(--scroll-top) * var(--depth-rate)));
+    }
+
+    /* Individual Depth Layer Rates and Daily Image Generators 
+       The linear-gradient acts as an 85% solid color layer laid directly over the source image */
+    .layer-background {
+      --depth-rate: 0.15;
+      z-index: 1;
+      background-image: 
+        linear-gradient(rgba(10, 10, 12, 0.85), rgba(10, 10, 12, 0.85)), 
+        url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1920&auto=format&fit=crop'); 
+    }
+
+    .layer-midground {
+      --depth-rate: -0.25;
+      z-index: 2;
+      background-image: 
+        linear-gradient(rgba(10, 10, 12, 0.85), rgba(10, 10, 12, 0.85)), 
+        url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1920&auto=format&fit=crop');
+    }
+
+    .layer-foreground {
+      --depth-rate: -0.60;
+      z-index: 4;
+      background-image: 
+        linear-gradient(rgba(10, 10, 12, 0.85), rgba(10, 10, 12, 0.85)), 
+        url('https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1920&auto=format&fit=crop');
+    }
+
+    /* Core Hero Brand Typography */
+    .brand-header {
+      position: relative;
+      z-index: 3;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      transform: translateY(calc(var(--scroll-top) * -0.05));
+      will-change: transform;
+    }
+
+    .brand-header h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      color: #ffffff;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.9);
+    }
+
+    /* Content Area & Simulated QR Footer Component */
+    .main-content {
+      position: relative;
+      z-index: 10;
+      background-color: #0a0a0c;
+      padding: 4rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6rem;
+    }
+
+    .info-section {
+      max-width: 800px;
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    .info-section p {
+      font-size: 1.25rem;
+      color: #a0a0aa;
+    }
+
+    .footer-qr-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      padding-top: 2rem;
+      border-top: 1px solid #27272a;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    /* Vector-simulated Fake QR Code Matrix */
+    .fake-qr {
+      width: 160px;
+      height: 160px;
+      background-color: #ffffff;
+      padding: 10px;
+      border-radius: 8px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(4, 1fr);
+      gap: 6px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    }
+
+    .qr-block { background-color: #000000; }
+    .qr-block.empty { background-color: transparent; }
+    .qr-alignment-zone { border: 4px solid #000000; background: transparent; }
+  </style>
+</head>
+<body>
+
+  <div class="parallax-stage" id="parallaxStage">
+    <div class="parallax-layer layer-background"></div>
+    <div class="parallax-layer layer-midground"></div>
+    
+    <header class="brand-header">
+      <h1>Protocol Video</h1>
+    </header>
+
+    <div class="parallax-layer layer-foreground"></div>
+  </div>
+
+  <main class="main-content">
+    <section class="info-section">
+      <p>Next-generation visual framework configuration optimized for low-latency delivery mechanics.</p>
+    </section>
+
+    <footer class="footer-qr-container">
+      <div class="fake-qr" aria-hidden="true">
+        <div class="qr-block qr-alignment-zone"></div>
+        <div class="qr-block"></div>
+        <div class="qr-block empty"></div>
+        <div class="qr-block qr-alignment-zone"></div>
+        <div class="qr-block empty"></div>
+        <div class="qr-block"></div>
+        <div class="qr-block"></div>
+        <div class="qr-block empty"></div>
+        <div class="qr-block"></div>
+        <div class="qr-block empty"></div>
+        <div class="qr-block"></div>
+        <div class="qr-block"></div>
+        <div class="qr-block qr-alignment-zone"></div>
+        <div class="qr-block"></div>
+        <div class="qr-block empty"></div>
+        <div class="qr-block qr-alignment-zone"></div>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    // High-performance scroll calculation binding to CSS variables
+    const stage = document.getElementById('parallaxStage');
+    
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      stage.style.setProperty('--scroll-top', `${scrollTop}px`);
+    }, { passive: true });
+  </script>
+</body>
+</html>
