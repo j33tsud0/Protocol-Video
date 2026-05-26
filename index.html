@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Protocol Video</title>
   <style>
-    /* Reset and Core Layout */
+    /* Reset and System Core */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -13,133 +13,281 @@
     }
     
     body {
-      background-color: #0a0a0c;
-      color: #f0f0f3;
+      background-color: #050507;
+      color: #e4e4e7;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       overflow-x: hidden;
-      min-height: 200vh;
+      scroll-behavior: smooth;
     }
 
-    /* Parallax Stage Container */
+    /* Green Accent Typography & Utility Headers */
+    h1, h2, h3, .accent-green {
+      color: #ccff00; /* High-Vis Acid Green */
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 800;
+    }
+
+    /* Parallax Stage Component */
     .parallax-stage {
       position: relative;
       width: 100%;
       height: 100vh;
       overflow: hidden;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
+      border-bottom: 1px solid #1c1c1f;
     }
 
-    /* Base Layer Configuration with Built-in 85% Dark Tint Overlay */
     .parallax-layer {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
-      height: 120%; 
+      height: 130%; 
       background-position: center center;
       background-size: cover;
       background-repeat: no-repeat;
       will-change: transform;
       transform: translateY(calc(var(--scroll-top) * var(--depth-rate)));
+      transition: filter 0.3s ease;
     }
 
-    /* Individual Depth Layer Rates and Daily Image Generators 
-       The linear-gradient acts as an 85% solid color layer laid directly over the source image */
+    /* Custom 85% Dark/Moody Tint Overlays over Daily Source Generators */
     .layer-background {
-      --depth-rate: 0.15;
+      --depth-rate: 0.12;
       z-index: 1;
       background-image: 
-        linear-gradient(rgba(10, 10, 12, 0.85), rgba(10, 10, 12, 0.85)), 
+        linear-gradient(rgba(5, 5, 7, 0.85), rgba(5, 5, 7, 0.85)), 
         url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1920&auto=format&fit=crop'); 
     }
 
     .layer-midground {
-      --depth-rate: -0.25;
+      --depth-rate: -0.20;
       z-index: 2;
       background-image: 
-        linear-gradient(rgba(10, 10, 12, 0.85), rgba(10, 10, 12, 0.85)), 
+        linear-gradient(rgba(5, 5, 7, 0.85), rgba(5, 5, 7, 0.85)), 
         url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1920&auto=format&fit=crop');
     }
 
     .layer-foreground {
-      --depth-rate: -0.60;
+      --depth-rate: -0.50;
       z-index: 4;
       background-image: 
-        linear-gradient(rgba(10, 10, 12, 0.85), rgba(10, 10, 12, 0.85)), 
+        linear-gradient(rgba(5, 5, 7, 0.85), rgba(5, 5, 7, 0.85)), 
         url('https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1920&auto=format&fit=crop');
     }
 
-    /* Core Hero Brand Typography */
+    /* Brand Header Content Layer */
     .brand-header {
       position: relative;
       z-index: 3;
       text-align: center;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
       transform: translateY(calc(var(--scroll-top) * -0.05));
       will-change: transform;
+      padding: 0 1rem;
     }
 
     .brand-header h1 {
-      font-size: 3.5rem;
-      font-weight: 800;
-      color: #ffffff;
-      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.9);
+      font-size: 4rem;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 0 30px rgba(204, 255, 0, 0.2);
     }
 
-    /* Content Area & Simulated QR Footer Component */
+    .brand-header p {
+      font-size: 1.1rem;
+      color: #a1a1aa;
+      max-width: 600px;
+      margin: 0 auto;
+      font-weight: 500;
+    }
+
+    /* Main Container Sectioning */
     .main-content {
       position: relative;
       z-index: 10;
-      background-color: #0a0a0c;
-      padding: 4rem 2rem;
+      background-color: #050507;
+      padding: 6rem 2rem;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6rem;
+      gap: 8rem;
     }
 
-    .info-section {
-      max-width: 800px;
-      text-align: center;
+    .section-container {
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    .section-title {
+      font-size: 1.75rem;
+      margin-bottom: 3rem;
+      border-left: 4px solid #ccff00;
+      padding-left: 1rem;
+    }
+
+    /* Motion Grid System for The Friction Trap */
+    .grid-three-col {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .info-card {
+      background: #0e0e11;
+      border: 1px solid #1c1c1f;
+      padding: 2.5rem;
+      border-radius: 4px;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+    }
+
+    .info-card:hover {
+      transform: translateY(-5px);
+      border-color: #ccff00;
+    }
+
+    .icon-wrapper {
+      margin-bottom: 1.5rem;
+      display: inline-block;
+    }
+
+    .info-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      color: #ffffff;
+    }
+
+    .info-card p {
+      color: #a1a1aa;
       line-height: 1.6;
+      font-size: 0.95rem;
     }
 
-    .info-section p {
-      font-size: 1.25rem;
-      color: #a0a0aa;
+    /* Operational Flat Rates Presentation Layout */
+    .rate-table-container {
+      background: #0e0e11;
+      border: 1px solid #1c1c1f;
+      border-radius: 4px;
+      overflow: hidden;
     }
 
+    .rate-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1.5fr 1fr;
+      padding: 1.5rem;
+      border-bottom: 1px solid #1c1c1f;
+      align-items: center;
+    }
+
+    .rate-row.table-header {
+      background: #121216;
+      border-bottom: 2px solid #1c1c1f;
+    }
+
+    .rate-row.table-header div {
+      font-weight: 700;
+      color: #ccff00;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .rate-row:last-child {
+      border-bottom: none;
+    }
+
+    .rate-level {
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .rate-price {
+      font-weight: 800;
+      color: #ccff00;
+      font-size: 1.2rem;
+      text-align: right;
+    }
+
+    /* Turnaround Pipeline / Process Components */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .timeline-step {
+      display: flex;
+      gap: 2rem;
+      background: #0e0e11;
+      border: 1px solid #1c1c1f;
+      padding: 1.5rem 2rem;
+      border-radius: 4px;
+      align-items: center;
+    }
+
+    .step-time {
+      font-weight: 800;
+      color: #ccff00;
+      font-size: 1.1rem;
+      min-width: 120px;
+    }
+
+    .step-desc {
+      color: #e4e4e7;
+      font-size: 1rem;
+    }
+
+    /* Unified QR Execution Footer Section */
     .footer-qr-container {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 1rem;
-      padding-top: 2rem;
-      border-top: 1px solid #27272a;
+      gap: 1.5rem;
+      padding-top: 4rem;
+      border-top: 1px solid #1c1c1f;
       width: 100%;
-      max-width: 400px;
+      max-width: 500px;
+      text-align: center;
     }
 
-    /* Vector-simulated Fake QR Code Matrix */
+    .footer-qr-container p {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #71717a;
+    }
+
     .fake-qr {
-      width: 160px;
-      height: 160px;
+      width: 180px;
+      height: 180px;
       background-color: #ffffff;
-      padding: 10px;
-      border-radius: 8px;
+      padding: 12px;
+      border-radius: 4px;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       grid-template-rows: repeat(4, 1fr);
-      gap: 6px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      gap: 8px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
     }
 
-    .qr-block { background-color: #000000; }
+    .qr-block { background-color: #050507; }
     .qr-block.empty { background-color: transparent; }
-    .qr-alignment-zone { border: 4px solid #000000; background: transparent; }
+    .qr-alignment-zone { border: 5px solid #050507; background: transparent; }
+
+    /* Responsive Mobile Overrides */
+    @media (max-width: 768px) {
+      .brand-header h1 { font-size: 2.5rem; }
+      .rate-row {
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+      .rate-row.table-header { display: none; }
+      .rate-price { text-align: left; grid-column: span 2; border-top: 1px solid #1c1c1f; padding-top: 0.5rem; }
+      .timeline-step { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+    }
   </style>
 </head>
 <body>
@@ -150,14 +298,105 @@
     
     <header class="brand-header">
       <h1>Protocol Video</h1>
+      <p>Frictionless, Flat-Rate Mobile Content Production for the Modern High-Street Business[cite: 2].</p>
     </header>
 
     <div class="parallax-layer layer-foreground"></div>
   </div>
 
   <main class="main-content">
-    <section class="info-section">
-      <p>Next-generation visual framework configuration optimized for low-latency delivery mechanics.</p>
+
+    <section class="section-container">
+      <h2 class="section-title">The Friction Trap [cite: 4]</h2>
+      <div class="grid-three-col">
+        
+        <div class="info-card">
+          <div class="icon-wrapper">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ccff00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          </div>
+          <h3>Time Scarcity [cite: 6]</h3>
+          <p>Business owners have zero bandwidth to reliably plan, shoot, and compile consistent short-form social media assets[cite: 7, 8].</p>
+        </div>
+
+        <div class="info-card">
+          <div class="icon-wrapper">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ccff00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+          </div>
+          <h3>Cost Complexity [cite: 9]</h3>
+          <p>Traditional media agencies demand excessive ongoing retainers and locking contracts for routine, everyday promos[cite: 10].</p>
+        </div>
+
+        <div class="info-card">
+          <div class="icon-wrapper">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ccff00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22s1-1 1-4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v13c0 3 1 4 1 4z"></path><path d="M6 8h12"></path><path d="M6 12h12"></path></svg>
+          </div>
+          <h3>Invisible Revenue [cite: 11]</h3>
+          <p>Stagnant, dead social media feeds directly result in lost walk-in customer opportunities and minimized local presence[cite: 12].</p>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="section-container">
+      <h2 class="section-title">Operational Flat Rates [cite: 36]</h2>
+      <div class="rate-table-container">
+        
+        <div class="rate-row table-header">
+          <div>Protocol Level [cite: 37]</div>
+          <div>Duration [cite: 37]</div>
+          <div>Shot Architecture [cite: 22, 37]</div>
+          <div style="text-align: right;">Flat Rate [cite: 37]</div>
+        </div>
+
+        <div class="rate-row">
+          <div class="rate-level">The Pulse [cite: 37]</div>
+          <div>15 Seconds [cite: 37]</div>
+          <div>5 High-Impact Shots [cite: 37]</div>
+          <div class="rate-price">$75.00 [cite: 37]</div>
+        </div>
+
+        <div class="rate-row">
+          <div class="rate-level">The Showcase [cite: 37]</div>
+          <div>30 Seconds [cite: 37]</div>
+          <div>10 Detailed Shots [cite: 37]</div>
+          <div class="rate-price">$150.00 [cite: 37]</div>
+        </div>
+
+        <div class="rate-row">
+          <div class="rate-level">The Narrative [cite: 37]</div>
+          <div>60 Seconds [cite: 37]</div>
+          <div>Unlimited + VO Audio [cite: 37]</div>
+          <div class="rate-price">$250.00 [cite: 37]</div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="section-container">
+      <h2 class="section-title">The 24H Turnaround [cite: 38]</h2>
+      <div class="timeline">
+        
+        <div class="timeline-step">
+          <div class="step-time">09:00 AM [cite: 39]</div>
+          <div class="step-desc">Walk-in Pitch & Immediate Same-day Payment Execution[cite: 42].</div>
+        </div>
+
+        <div class="timeline-step">
+          <div class="step-time">10:30 AM [cite: 40]</div>
+          <div class="step-desc">Tactical On-Site Mobile Capture (Target: 15–30 Mins)[cite: 43].</div>
+        </div>
+
+        <div class="timeline-step">
+          <div class="step-time">02:00 PM [cite: 41]</div>
+          <div class="step-desc">Mobile Linear Template Editing Framework Integration[cite: 44].</div>
+        </div>
+
+        <div class="timeline-step">
+          <div class="step-time">09:00 AM (D+1) [cite: 45]</div>
+          <div class="step-desc">Hardened Digital Delivery, System Deployment & Review[cite: 46].</div>
+        </div>
+
+      </div>
     </section>
 
     <footer class="footer-qr-container">
@@ -179,11 +418,12 @@
         <div class="qr-block empty"></div>
         <div class="qr-block qr-alignment-zone"></div>
       </div>
+      <p>System Authorization Verification Protocol Enabled</p>
     </footer>
   </main>
 
   <script>
-    // High-performance scroll calculation binding to CSS variables
+    // Parallax Math Integration Hook
     const stage = document.getElementById('parallaxStage');
     
     window.addEventListener('scroll', () => {
